@@ -113,7 +113,8 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
-  display: flex; align-items: center;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 2.5rem;
   padding: 6rem clamp(1.5rem, 8vw, 6rem) 3rem;
   position: relative; overflow: hidden;
 }
@@ -177,6 +178,70 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   color: var(--accent2); letter-spacing: -0.03em;
 }
 .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+
+/* ── HERO VISUAL (CODE CARD) ── */
+.hero-visual {
+  position: relative; z-index: 1;
+  flex: 0 0 380px; max-width: 100%;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.7s forwards, float 5s ease-in-out 1.3s infinite;
+}
+@media (max-width: 1024px) { .hero-visual { display: none; } }
+
+.code-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.code-card-bar {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.code-dot { width: 9px; height: 9px; border-radius: 50%; }
+.code-dot.red { background: #FF5F56; }
+.code-dot.yellow { background: #FFBD2E; }
+.code-dot.green { background: #27C93F; }
+.code-card-title {
+  margin-left: 0.5rem; font-family: var(--mono);
+  font-size: 0.72rem; color: var(--muted);
+}
+.code-card-status {
+  margin-left: auto; display: flex; align-items: center; gap: 0.4rem;
+  font-family: var(--mono); font-size: 0.68rem; color: var(--green);
+}
+.code-card-status::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.code-card-body {
+  font-family: var(--mono); font-size: 0.82rem; line-height: 1.9;
+  padding: 1.4rem 1.5rem;
+}
+.tok-key  { color: var(--accent2); }
+.tok-var  { color: var(--text); }
+.tok-prop { color: var(--tag-text); }
+.tok-str  { color: var(--green); }
+.tok-punc { color: var(--muted); }
+.tok-cursor {
+  display: inline-block; width: 7px; height: 1em;
+  background: var(--accent2); margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  50% { box-shadow: 0 0 0 4px rgba(16,185,129,0); }
+}
 
 /* ── BUTTONS ── */
 .btn {
@@ -489,6 +554,24 @@ footer {
         <div class="stat-num">5</div>
         <div class="stat-label">Certifications</div>
       </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="code-card">
+      <div class="code-card-bar">
+        <span class="code-dot red"></span>
+        <span class="code-dot yellow"></span>
+        <span class="code-dot green"></span>
+        <span class="code-card-title">profile.js</span>
+        <span class="code-card-status">online</span>
+      </div>
+      <pre class="code-card-body"><code><span class="tok-key">const</span> <span class="tok-var">domons</span> <span class="tok-punc">=</span> <span class="tok-punc">{</span>
+  <span class="tok-prop">role</span><span class="tok-punc">:</span> <span class="tok-str">"Data Quality Specialist"</span><span class="tok-punc">,</span>
+  <span class="tok-prop">stack</span><span class="tok-punc">:</span> <span class="tok-punc">[</span><span class="tok-str">"SQL Server"</span><span class="tok-punc">,</span> <span class="tok-str">"Talend"</span><span class="tok-punc">,</span> <span class="tok-str">"SSIS"</span><span class="tok-punc">]</span><span class="tok-punc">,</span>
+  <span class="tok-prop">focus</span><span class="tok-punc">:</span> <span class="tok-str">"clean data, reliable pipelines"</span><span class="tok-punc">,</span>
+  <span class="tok-prop">status</span><span class="tok-punc">:</span> <span class="tok-str">"open for freelance work"</span>
+<span class="tok-punc">};</span><span class="tok-cursor"></span></code></pre>
     </div>
   </div>
 </div>

@@ -74,7 +74,41 @@ nav {
 }
 .nav-links a:hover { color: var(--text); }
 .nav-links a:hover::after { width: 100%; }
-@media (max-width: 600px) { .nav-links { display: none; } }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column; justify-content: center; gap: 5px;
+  width: 32px; height: 32px; background: none; border: none;
+  cursor: pointer; padding: 0; z-index: 210;
+}
+.nav-toggle span {
+  display: block; width: 100%; height: 2px;
+  background: var(--text); border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+nav.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 640px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: fixed; top: 58px; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: rgba(6,9,15,0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  nav.nav-open .nav-links { max-height: 320px; }
+  .nav-links a {
+    display: block; padding: 1rem clamp(1.5rem, 8vw, 3rem);
+    font-size: 0.92rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-links a::after { display: none; }
+}
 
 /* ── HERO ── */
 .hero {
@@ -339,16 +373,9 @@ nav {
 
 /* ── DOWNLOAD SECTION ── */
 .dl-section {
-  background: linear-gradient(135deg, var(--surface2) 0%, var(--bg2) 100%);
-  border: 1px solid var(--border);
-  border-radius: 16px; padding: 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1.5rem;
+  display: flex; justify-content: center;
+  padding: 1rem 0;
 }
-.dl-section h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem; }
-.dl-section p { font-size: 0.875rem; color: var(--muted); }
-.dl-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.6rem; }
-.dl-meta-item { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 0.3rem; }
 
 /* ── CONTACT ── */
 .contact-grid {
@@ -396,12 +423,26 @@ footer {
   height: 1px; background: var(--border);
   margin: 0 clamp(1.5rem, 8vw, 6rem);
 }
+
+/* ── RESPONSIVE (SMALL SCREENS) ── */
+@media (max-width: 640px) {
+  .section-wrap { padding: 3.5rem clamp(1.5rem, 8vw, 6rem); }
+  .hero { padding-top: 5rem; }
+  .hero-stats { gap: 1.5rem 2rem; }
+  .section-title { font-size: 1.55rem; }
+}
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { justify-content: center; width: 100%; }
+  .dl-section .btn { width: 100%; }
+  .stat-num { font-size: 1.35rem; }
+}
 </style>
 </head>
 <body>
 
 <!-- ════ NAV ════ -->
-<nav>
+<nav id="site-nav">
   <span class="nav-brand"><span style="color:var(--muted)">~/</span>bernard.dev</span>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -410,6 +451,9 @@ footer {
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ════ HERO ════ -->
@@ -445,10 +489,6 @@ footer {
         <div class="stat-num">5</div>
         <div class="stat-label">Certifications</div>
       </div>
-      <div>
-        <div class="stat-num">CL</div>
-        <div class="stat-label">Cum Laude Graduate</div>
-      </div>
     </div>
   </div>
 </div>
@@ -466,7 +506,7 @@ footer {
     <div class="about-text">
       <p>I'm a <strong>Data Quality Specialist and Backend Developer</strong> based in Cebu City, Philippines, with hands-on experience in SQL development, ETL pipeline design, and enterprise data warehousing.</p>
       <p>Currently working at <strong>Prince Retail Group of Companies</strong>, I design and maintain data pipelines using Talend and SSIS, ensuring data quality and reliability across enterprise systems.</p>
-      <p>I graduated <strong>Cum Laude</strong> from Cebu Technological University with a Bachelor of Industrial Technology, Major in Computer Technology — and I continue to build on that foundation through DataCamp certifications and hands-on project work.</p>
+      <p>I hold a <strong>Bachelor of Industrial Technology</strong>, Major in Computer Technology, from Cebu Technological University — and I continue to build on that foundation through DataCamp certifications and hands-on project work.</p>
       <p>Outside of work, I'm drawn to IoT systems, backend architecture, and automating paper-heavy workflows — particularly for small businesses in the Philippines.</p>
     </div>
     <div class="info-card">
@@ -477,7 +517,7 @@ footer {
         <li><span class="lbl">Phone</span><span class="val">09270776322</span></li>
         <li><span class="lbl">LinkedIn</span><span class="val"><a href="https://www.linkedin.com/in/bernadinodomongdong/" target="_blank">linkedin.com/in/bernadinodomongdong</a></span></li>
         <li><span class="lbl">Website</span><span class="val"><a href="https://bernadinodomongdong.netlify.app" target="_blank">bernadinodomongdong.netlify.app</a></span></li>
-        <li><span class="lbl">Status</span><span class="val" style="color:var(--green)">● Open to opportunities</span></li>
+        <li><span class="lbl">Status</span><span class="val" style="color:var(--green)">● Available for client projects</span></li>
       </ul>
     </div>
   </div>
@@ -695,27 +735,17 @@ footer {
   <div class="reveal">
     <p class="section-eyebrow">05 · Contact</p>
     <h2 class="section-title">Let's Connect</h2>
-    <p class="section-sub">Open to full-time roles, freelance projects, and collaboration opportunities.</p>
+    <p class="section-sub">Open for freelance projects, contract work, and long-term client partnerships.</p>
   </div>
 
   <!-- Download Banner -->
   <div class="dl-section reveal" style="margin-bottom:2rem;">
-    <div>
-      <h3>📄 Download Resume (ATS Format)</h3>
-      <p>Clean, ATS-optimized PDF — ready for any job application.</p>
-      <div class="dl-meta">
-        <span class="dl-meta-item">✓ ATS-friendly format</span>
-        <span class="dl-meta-item">✓ No images or tables</span>
-        <span class="dl-meta-item">✓ Standard fonts</span>
-        <span class="dl-meta-item">✓ Keyword-rich content</span>
-      </div>
-    </div>
-    <button class="btn btn-primary" id="contact-dl-btn">⬇&nbsp; Download PDF</button>
+    <button class="btn btn-primary" id="contact-dl-btn">⬇&nbsp; Download CV</button>
   </div>
 
   <div class="contact-grid reveal">
     <div class="contact-text">
-      <p>I'm available for full-time data engineering and backend development roles, as well as freelance and automation projects — especially for Philippine SMEs.</p>
+      <p>I'm available for freelance data engineering, backend development, and automation projects — especially for Philippine SMEs looking to clean up their data and streamline manual workflows.</p>
       <p style="margin-top:0.85rem">Feel free to reach out through any of the channels listed here. I typically respond within 24 hours.</p>
     </div>
     <div class="contact-links-wrap">
@@ -765,6 +795,20 @@ function downloadResume() {
 
 document.getElementById('hero-dl-btn').addEventListener('click', downloadResume);
 document.getElementById('contact-dl-btn').addEventListener('click', downloadResume);
+
+// ── Mobile nav toggle ──
+const siteNav = document.getElementById('site-nav');
+const navToggle = document.getElementById('nav-toggle');
+navToggle.addEventListener('click', () => {
+  const isOpen = siteNav.classList.toggle('nav-open');
+  navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    siteNav.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  });
+});
 
 // ── Scroll reveal ──
 const observer = new IntersectionObserver(entries => {

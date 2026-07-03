@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bernadino T. Domongdong | Data Quality Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #06090F;
+  --bg2:      #0D1526;
+  --surface:  #111C2E;
+  --surface2: #172236;
+  --border:   #1E3050;
+  --border2:  #264070;
+  --accent:   #3B82F6;
+  --accent2:  #60A5FA;
+  --accent3:  #93C5FD;
+  --green:    #10B981;
+  --text:     #F0F4FF;
+  --muted:    #8BA3C7;
+  --tag-bg:   #0F2040;
+  --tag-text: #7CB9FF;
+  --mono:     'Fira Code', monospace;
+  --sans:     'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 200;
+  background: rgba(6,9,15,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 58px;
+  display: flex; align-items: center;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--mono);
+  font-size: 0.88rem; color: var(--accent2);
+  letter-spacing: -0.01em;
+}
+.nav-brand span { color: var(--muted); }
+.nav-links { display: flex; gap: 1.75rem; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: 0.82rem; font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1.5px; background: var(--accent);
+  transition: width 0.25s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+@media (max-width: 600px) { .nav-links { display: none; } }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 6rem clamp(1.5rem, 8vw, 6rem) 3rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 40%, transparent 100%);
+}
+.hero-glow {
+  position: absolute; top: 10%; left: 20%;
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.10) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 760px;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.82rem; color: var(--accent);
+  letter-spacing: 0.08em; margin-bottom: 1rem;
+  opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+}
+.hero-name {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.04em;
+  opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+}
+.hero-name .highlight { color: var(--accent2); }
+.hero-role {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted); font-weight: 400;
+  margin-top: 0.6rem;
+  opacity: 0; animation: fadeUp 0.6s 0.3s forwards;
+}
+.hero-role b { color: var(--text); font-weight: 600; }
+.hero-desc {
+  font-size: 0.97rem; color: var(--muted);
+  max-width: 560px; margin-top: 1rem;
+  line-height: 1.75;
+  opacity: 0; animation: fadeUp 0.6s 0.4s forwards;
+}
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  margin-top: 2rem;
+  opacity: 0; animation: fadeUp 0.6s 0.5s forwards;
+}
+.hero-stats {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  opacity: 0; animation: fadeUp 0.6s 0.6s forwards;
+}
+.stat-num {
+  font-size: 1.6rem; font-weight: 800;
+  color: var(--accent2); letter-spacing: -0.03em;
+}
+.stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.5rem; border-radius: 8px;
+  font-size: 0.875rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: all 0.2s; font-family: var(--sans);
+}
+.btn-primary {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 0 0 0 rgba(59,130,246,0);
+}
+.btn-primary:hover {
+  background: #2563EB;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.40);
+  transform: translateY(-1px);
+}
+.btn-outline {
+  background: transparent; color: var(--text);
+  border: 1.5px solid var(--border2);
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent2);
+  transform: translateY(-1px);
+}
+
+/* ── SECTION WRAPPER ── */
+.section-wrap {
+  padding: 5.5rem clamp(1.5rem, 8vw, 6rem);
+  max-width: 1100px; margin: 0 auto;
+}
+.section-wrap.alt-bg { background: var(--bg2); }
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem; color: var(--accent);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.section-title {
+  font-size: 1.9rem; font-weight: 800;
+  letter-spacing: -0.03em; margin-bottom: 0.6rem;
+}
+.section-sub {
+  font-size: 0.92rem; color: var(--muted);
+  max-width: 540px; margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.about-text { font-size: 0.95rem; color: var(--muted); line-height: 1.85; }
+.about-text p + p { margin-top: 0.85rem; }
+.about-text strong { color: var(--text); font-weight: 600; }
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.5rem;
+}
+.info-card-title {
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.info-list li {
+  display: flex; flex-direction: column; gap: 0.1rem;
+  font-size: 0.85rem;
+}
+.info-list li .lbl { color: var(--muted); font-size: 0.75rem; font-weight: 500; }
+.info-list li .val { color: var(--text); font-weight: 500; }
+.info-list li .val a { color: var(--accent2); text-decoration: none; }
+.info-list li .val a:hover { text-decoration: underline; }
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.skill-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.4rem;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.skill-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(59,130,246,0.12);
+}
+.skill-card-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+.skill-card-title {
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase;
+  letter-spacing: 0.07em; margin-bottom: 0.75rem;
+}
+.tag-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag {
+  background: var(--tag-bg); color: var(--tag-text);
+  font-size: 0.73rem; font-family: var(--mono);
+  padding: 0.22rem 0.6rem; border-radius: 4px;
+  border: 1px solid rgba(59,130,246,0.15);
+}
+
+/* ── EXPERIENCE TIMELINE ── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: grid; grid-template-columns: 148px 1fr;
+  gap: 0 2rem; padding-bottom: 2.5rem; position: relative;
+}
+@media (max-width: 640px) {
+  .tl-item { grid-template-columns: 1fr; gap: 0.4rem; padding-bottom: 2rem; }
+  .tl-line { display: none; }
+}
+.tl-line {
+  position: absolute; left: 148px; top: 10px; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.tl-item:last-child .tl-line { display: none; }
+.tl-dot {
+  position: absolute; left: calc(148px - 6px); top: 7px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+}
+@media (max-width: 640px) { .tl-dot { display: none; } }
+.tl-date {
+  font-family: var(--mono); font-size: 0.74rem;
+  color: var(--muted); text-align: right;
+  padding-top: 0.1rem; line-height: 1.5;
+}
+.tl-current {
+  display: inline-block; margin-top: 0.3rem;
+  background: rgba(16,185,129,0.15); color: var(--green);
+  font-size: 0.65rem; font-weight: 700;
+  padding: 0.15rem 0.45rem; border-radius: 3px;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.tl-content { padding-left: 0.75rem; }
+@media (max-width: 640px) { .tl-content { padding-left: 0; } }
+.tl-role {
+  font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem;
+}
+.tl-company { font-size: 0.85rem; color: var(--accent2); font-weight: 500; }
+.tl-loc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
+.tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.tl-bullets li {
+  font-size: 0.875rem; color: var(--muted);
+  padding-left: 1.1rem; position: relative; line-height: 1.6;
+}
+.tl-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+
+/* ── EDUCATION & CERTS ── */
+.edu-certs-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  align-items: start;
+}
+@media (max-width: 640px) { .edu-certs-grid { grid-template-columns: 1fr; } }
+.edu-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.6rem;
+  transition: border-color 0.25s;
+}
+.edu-card:hover { border-color: var(--accent); }
+.edu-card-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.edu-card-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+.edu-card-sub { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+.badge-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+.badge {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.55rem;
+  border-radius: 4px; letter-spacing: 0.04em;
+}
+.badge-gold { background: rgba(245,158,11,0.15); color: #FBBF24; }
+.badge-blue { background: rgba(59,130,246,0.12); color: var(--accent2); }
+.badge-green { background: rgba(16,185,129,0.12); color: var(--green); }
+.certs-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.cert-item {
+  display: flex; align-items: flex-start; gap: 0.7rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.85rem 1rem;
+  transition: border-color 0.2s;
+}
+.cert-item:hover { border-color: var(--accent); }
+.cert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.cert-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.cert-org { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+
+/* ── DOWNLOAD SECTION ── */
+.dl-section {
+  background: linear-gradient(135deg, var(--surface2) 0%, var(--bg2) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.dl-section h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem; }
+.dl-section p { font-size: 0.875rem; color: var(--muted); }
+.dl-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.dl-meta-item { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 0.3rem; }
+
+/* ── CONTACT ── */
+.contact-grid {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-text { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+.contact-links-wrap { display: flex; flex-direction: column; gap: 0.65rem; }
+.clink {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.8rem 1.1rem;
+  text-decoration: none; color: var(--text);
+  font-size: 0.875rem; transition: all 0.2s;
+}
+.clink:hover { border-color: var(--accent); color: var(--accent2); transform: translateX(4px); }
+.clink-icon { font-size: 1rem; flex-shrink: 0; }
+.clink-label { font-size: 0.7rem; color: var(--muted); display: block; }
+.clink-val { font-weight: 500; font-size: 0.85rem; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.75rem clamp(1.5rem, 8vw, 6rem);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-left { font-size: 0.82rem; color: var(--muted); }
+.footer-right { font-family: var(--mono); font-size: 0.75rem; color: var(--border2); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── DIVIDER LINE ── */
+.section-divider {
+  height: 1px; background: var(--border);
+  margin: 0 clamp(1.5rem, 8vw, 6rem);
+}
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <span class="nav-brand"><span style="color:var(--muted)">~/</span>bernard.dev</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ════ HERO ════ -->
+<div class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">// Data Quality Specialist · Cebu City, Philippines</p>
+    <h1 class="hero-name">
+      Bernadino T.<br><span class="highlight">Domongdong</span>
+    </h1>
+    <p class="hero-role">
+      <b>Data Quality Specialist</b> &nbsp;·&nbsp; <b>Backend Developer</b> &nbsp;·&nbsp; <b>IoT Enthusiast</b>
+    </p>
+    <p class="hero-desc">
+      Building clean data pipelines and reliable backend systems for enterprise-scale environments.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="hero-dl-btn">⬇&nbsp; Download Resume</button>
+      <a class="btn btn-outline" href="#contact">Get In Touch</a>
+      <a class="btn btn-outline" href="https://www.linkedin.com/in/bernadinodomongdong/" target="_blank">in&nbsp; LinkedIn</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">1+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Roles & Internships</div>
+      </div>
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+      <div>
+        <div class="stat-num">CL</div>
+        <div class="stat-label">Cum Laude Graduate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ════ ABOUT ════ -->
+<div class="section-wrap" id="about">
+  <div class="reveal">
+    <p class="section-eyebrow">01 · About</p>
+    <h2 class="section-title">Who I Am</h2>
+    <p class="section-sub">A data-driven IT professional passionate about turning raw data into actionable insights.</p>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>Data Quality Specialist and Backend Developer</strong> based in Cebu City, Philippines, with hands-on experience in SQL development, ETL pipeline design, and enterprise data warehousing.</p>
+      <p>Currently working at <strong>Prince Retail Group of Companies</strong>, I design and maintain data pipelines using Talend and SSIS, ensuring data quality and reliability across enterprise systems.</p>
+      <p>I graduated <strong>Cum Laude</strong> from Cebu Technological University with a Bachelor of Industrial Technology, Major in Computer Technology — and I continue to build on that foundation through DataCamp certifications and hands-on project work.</p>
+      <p>Outside of work, I'm drawn to IoT systems, backend architecture, and automating paper-heavy workflows — particularly for small businesses in the Philippines.</p>
+    </div>
+    <div class="info-card">
+      <p class="info-card-title">Quick Info</p>
+      <ul class="info-list">
+        <li><span class="lbl">Location</span><span class="val">Cebu City, Philippines</span></li>
+        <li><span class="lbl">Email</span><span class="val"><a href="mailto:bernadinodomongdong@gmail.com">bernadinodomongdong@gmail.com</a></span></li>
+        <li><span class="lbl">Phone</span><span class="val">09270776322</span></li>
+        <li><span class="lbl">LinkedIn</span><span class="val"><a href="https://www.linkedin.com/in/bernadinodomongdong/" target="_blank">linkedin.com/in/bernadinodomongdong</a></span></li>
+        <li><span class="lbl">Website</span><span class="val"><a href="https://bernadinodomongdong.netlify.app" target="_blank">bernadinodomongdong.netlify.app</a></span></li>
+        <li><span class="lbl">Status</span><span class="val" style="color:var(--green)">● Open to opportunities</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ════ SKILLS ════ -->
+<div class="section-wrap alt-bg" id="skills">
+  <div class="reveal">
+    <p class="section-eyebrow">02 · Skills</p>
+    <h2 class="section-title">Technical Toolkit</h2>
+    <p class="section-sub">Technologies and tools I work with day-to-day.</p>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-card">
+      <div class="skill-card-icon">💻</div>
+      <p class="skill-card-title">Languages</p>
+      <div class="tag-wrap">
+        <span class="tag">PHP</span>
+        <span class="tag">Laravel</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Java</span>
+        <span class="tag">C</span>
+        <span class="tag">C++</span>
+        <span class="tag">C#</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🗄️</div>
+      <p class="skill-card-title">Databases</p>
+      <div class="tag-wrap">
+        <span class="tag">MySQL</span>
+        <span class="tag">SQL Server</span>
+        <span class="tag">SQL Scripting</span>
+        <span class="tag">Data Warehouse</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">⚙️</div>
+      <p class="skill-card-title">ETL & Tools</p>
+      <div class="tag-wrap">
+        <span class="tag">Talend</span>
+        <span class="tag">SSIS</span>
+        <span class="tag">DQS</span>
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔧</div>
+      <p class="skill-card-title">Concepts</p>
+      <div class="tag-wrap">
+        <span class="tag">ETL Design</span>
+        <span class="tag">Data Quality</span>
+        <span class="tag">Backend Dev</span>
+        <span class="tag">IoT Systems</span>
+        <span class="tag">SEO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ════ EXPERIENCE ════ -->
+<div class="section-wrap" id="experience">
+  <div class="reveal">
+    <p class="section-eyebrow">03 · Experience</p>
+    <h2 class="section-title">Work History</h2>
+    <p class="section-sub">My professional journey so far.</p>
+  </div>
+  <div class="timeline reveal">
+
+    <!-- Job 1 -->
+    <div class="tl-item">
+      <div class="tl-date">
+        Aug 2025<br>Present
+        <div><span class="tl-current">Current</span></div>
+      </div>
+      <div class="tl-line"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-role">Data Quality Specialist</p>
+        <p class="tl-company">Prince Retail Group of Companies</p>
+        <p class="tl-loc">PRG Tower, P. Basubas Street, Brgy. Tipolo, Mandaue City</p>
+        <ul class="tl-bullets">
+          <li>Develop and maintain SQL scripts to capture, transform, and load business data into structured datasets for reporting and analytics.</li>
+          <li>Design and implement ETL pipelines using <strong style="color:var(--text)">Talend</strong> and <strong style="color:var(--text)">SSIS</strong> to support Data Quality Services (DQS) within the enterprise Data Warehouse.</li>
+          <li>Automate data validation and cleansing workflows, reducing manual errors and improving data reliability across key business systems.</li>
+          <li>Collaborate with business analysts and stakeholders to align data solutions with reporting requirements.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Job 2 -->
+    <div class="tl-item">
+      <div class="tl-date">Feb 2025<br>Jun 2025</div>
+      <div class="tl-line"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-role">Data Analyst Intern</p>
+        <p class="tl-company">Prince Retail Group of Companies</p>
+        <p class="tl-loc">PRG Tower, P. Basubas Street, Brgy. Tipolo, Mandaue City</p>
+        <ul class="tl-bullets">
+          <li>Extracted, cleaned, and analyzed complex datasets using SQL and statistical tools to deliver actionable insights supporting business strategy.</li>
+          <li>Compiled and evaluated sales and inventory data to produce comprehensive reports, improving stock management and reducing discrepancies.</li>
+          <li>Supported the data team with ad-hoc queries, data profiling, and documentation of data processes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Job 3 -->
+    <div class="tl-item">
+      <div class="tl-date">Aug 2024<br>Jan 2025</div>
+      <div class="tl-line"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-role">IT Specialist Intern</p>
+        <p class="tl-company">ENCLOUDMENT</p>
+        <p class="tl-loc">8FL Gagfa Tower, F. Cabahug St., Kasambagan, Cebu City</p>
+        <ul class="tl-bullets">
+          <li>Conducted lead mining activities to identify potential clients and support business development initiatives.</li>
+          <li>Supported SEO campaigns through keyword research and on-page content optimization, improving organic rankings.</li>
+          <li>Provided first-level IT support — diagnosed and resolved hardware/software issues and maintained system operations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Capstone -->
+    <div class="tl-item">
+      <div class="tl-date">2024 – 2025</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-role">Capstone Project Leader</p>
+        <p class="tl-company">Cebu Technological University</p>
+        <p class="tl-loc">CTU Main Campus, Cebu City</p>
+        <ul class="tl-bullets">
+          <li>Led end-to-end development of a Bill-to-Coin Changer Machine with a Mobile Monitoring App for computer shops using C++, PHP, and MySQL.</li>
+          <li>Integrated hardware controls with a web-based admin dashboard for real-time machine monitoring and reporting.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ════ EDUCATION & CERTS ════ -->
+<div class="section-wrap alt-bg" id="education">
+  <div class="reveal">
+    <p class="section-eyebrow">04 · Education & Certifications</p>
+    <h2 class="section-title">Credentials</h2>
+    <p class="section-sub">Academic background and professional certifications.</p>
+  </div>
+  <div class="edu-certs-grid reveal">
+    <!-- Education -->
+    <div>
+      <div class="edu-card">
+        <div class="edu-card-icon">🎓</div>
+        <p class="edu-card-title">Bachelor of Industrial Technology</p>
+        <p class="edu-card-sub">Major in Computer Technology<br>Cebu Technological University (CTU)<br>Main Campus, Cebu City</p>
+        <div class="badge-wrap">
+          <span class="badge badge-gold">★ Cum Laude</span>
+          <span class="badge badge-blue">Computer Technology</span>
+        </div>
+      </div>
+    </div>
+    <!-- Certifications -->
+    <div class="certs-list">
+      <div class="cert-item">
+        <span class="cert-icon">📜</span>
+        <div>
+          <p class="cert-name">National Certificate II — CSS</p>
+          <p class="cert-org">Computer Systems Servicing · TESDA</p>
+        </div>
+      </div>
+      <div class="cert-item">
+        <span class="cert-icon">🤖</span>
+        <div>
+          <p class="cert-name">AI Engineering for Developers</p>
+          <p class="cert-org">DataCamp</p>
+        </div>
+      </div>
+      <div class="cert-item">
+        <span class="cert-icon">📊</span>
+        <div>
+          <p class="cert-name">Associate Data Engineering Certificate</p>
+          <p class="cert-org">DataCamp</p>
+        </div>
+      </div>
+      <div class="cert-item">
+        <span class="cert-icon">👨‍💻</span>
+        <div>
+          <p class="cert-name">Member — Google Developer Student Clubs</p>
+          <p class="cert-org">GDSC · CTU Chapter</p>
+        </div>
+      </div>
+      <div class="cert-item">
+        <span class="cert-icon">🔀</span>
+        <div>
+          <p class="cert-name">Version Control Workshop</p>
+          <p class="cert-org">Certificate of Completion</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ════ CONTACT ════ -->
+<div class="section-wrap" id="contact">
+  <div class="reveal">
+    <p class="section-eyebrow">05 · Contact</p>
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-sub">Open to full-time roles, freelance projects, and collaboration opportunities.</p>
+  </div>
+
+  <!-- Download Banner -->
+  <div class="dl-section reveal" style="margin-bottom:2rem;">
+    <div>
+      <h3>📄 Download Resume (ATS Format)</h3>
+      <p>Clean, ATS-optimized PDF — ready for any job application.</p>
+      <div class="dl-meta">
+        <span class="dl-meta-item">✓ ATS-friendly format</span>
+        <span class="dl-meta-item">✓ No images or tables</span>
+        <span class="dl-meta-item">✓ Standard fonts</span>
+        <span class="dl-meta-item">✓ Keyword-rich content</span>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="contact-dl-btn">⬇&nbsp; Download PDF</button>
+  </div>
+
+  <div class="contact-grid reveal">
+    <div class="contact-text">
+      <p>I'm available for full-time data engineering and backend development roles, as well as freelance and automation projects — especially for Philippine SMEs.</p>
+      <p style="margin-top:0.85rem">Feel free to reach out through any of the channels listed here. I typically respond within 24 hours.</p>
+    </div>
+    <div class="contact-links-wrap">
+      <a class="clink" href="mailto:bernadinodomongdong@gmail.com">
+        <span class="clink-icon">✉</span>
+        <div><span class="clink-label">Email</span><span class="clink-val">bernadinodomongdong@gmail.com</span></div>
+      </a>
+      <a class="clink" href="https://www.linkedin.com/in/bernadinodomongdong/" target="_blank">
+        <span class="clink-icon">in</span>
+        <div><span class="clink-label">LinkedIn</span><span class="clink-val">linkedin.com/in/bernadinodomongdong</span></div>
+      </a>
+      <a class="clink" href="https://bernadinodomongdong.netlify.app" target="_blank">
+        <span class="clink-icon">🌐</span>
+        <div><span class="clink-label">Portfolio</span><span class="clink-val">bernadinodomongdong.netlify.app</span></div>
+      </a>
+      <a class="clink" href="tel:09270776322">
+        <span class="clink-icon">📞</span>
+        <div><span class="clink-label">Phone</span><span class="clink-val">09270776322</span></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <span class="footer-left">© 2025 Bernadino T. Domongdong · Cebu City, Philippines</span>
+  <span class="footer-right">Data Quality Specialist · Backend Dev · IoT</span>
+</footer>
+
+<script>
+// ── Embed PDF base64 ──
+const PDF_B64 = "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDggMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0NvbnRlbnRzIDEwIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOCAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDggMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9BdXRob3IgKFwoYW5vbnltb3VzXCkpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA2MDkwOTEyMTUrMDAnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA2MDkwOTEyMTUrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKFwoYW5vbnltb3VzXCkpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOCAwIG9iago8PAovQ291bnQgMiAvS2lkcyBbIDQgMCBSIDUgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDI4MDAKPj4Kc3RyZWFtCkdiISNdPnVUY0UmcS9xRUZPYUUvMGchM100KkVnXUJkJSNTYlFJdG1lRWc2K1U9Xls7YE83bWwlQDo7cmowcjY1Jm5fOVZpPTZyNidaO3U6ZTojaHA6OktTQE1hKmcvKWwzTyknRFY0USI0KWJFJT0hRjteZ21gTGFraShBWThaKTdVJFp1biVNJE9rTm5gcHM/NDI1XTwzbmBYYiQzL09vOyJAUCVwa1Q3cDchby1yX2BeZG0tbzc9Mk0tYmZhLnEsMmZ1WXVKSVhvT1kwX2tzVUhcIkVJQ1YuRSdEOXFtZC9KIkBgWmdFTWszMVs7Jm5VbGgvUnMmWkBhdSpNWVs/IkosaTFhYj0tbHVjZG8xN2Y5MCZYS2BgMWdKLWBHaiZpR1RxNDNuRDZFKlRVdXRqO0BCQFstT2dJZEJRXzFHSlpjUCFjKUlpNkRkWjM0PUkwKl1hUitLayJEcCphSmVNPCgyZENDP0tpOSMnPmcwZUpHNVxsKERSWihLTyZmJmViI2cyTSk5WXVrWlBcMmwyK3M/LlM0S01RM29Qa25NcU87TW0kPUNNWyw8PG9JPHJnVVsnUmZOLTFsLiQpSzdrVk05J2IjRVA1Zj1gRl8qOjNlPmJdQ15vPkVeXFlQKVsqZSJvKVZvK15JUSwnZ05vKDg3RS1cYVVSM3RvPVxpdFFpMFJkUVA8Y146XU5XSFFzbVZYVmpjN19cW3FyQDNTRkVUV3NuXlptZ2lUNVF0ImEyRCQtLlUxYCZwQEg6KTshKSRPM2g0WlVjLlYtWi5lYF1ZZ3BQbXA7PFFocVdQOTtEP1huTHAkI0ZhUW1AOmpqQFw5SlhiRnUkIXImRlZLRCxzITMpXnI8SkgoVzksXjopRSYvZ0VbTChOK0g4cE9HbyY7X1JrLDNLZGoqNUJtMVE4TkA0Il1HNFdNUTl0Z05GLmtlcEl0K2ZgJixFSlRzXGk7InBuM2FJXDdwT0UpPTNfISFmK08jcGhCMmBJVyo7OmRldGM1dDRPZT07RWdxMmVVbyItQjVSSWooYEdpIjRxUCtOZlVHbSYsVF9lKkJUV0RjIiEsQWpBPkhiSmFvajUnKVtuLTphaFhvS0dBJVRQZnVPK2QmJW5dOm4uYCpbJU5NUiRXVFliV0hfKztaSys6WklAclFYKyxsXFhqMXEqQFh0YlFvS2hVbWAjKWFTUlFKPixVSF11TnQlNi0uPT1YKUwnLkIuOUg4NGJZMkw4Jy5EIl0pTi4tXTVraC8ncis9YXRlRz9IWSFPTzxsVmVgP1VgJSI+bC91PmZQdXFDZSlpOEFCb3A6W0hBI10tJy0+Q1NSRTQlYD5qcUR0Uls6TyltSSdZJkwvJUYoL1YyWFw9Li1pRWQtLUlxL1AzZltwZyFOQjFjYD0zMCMnXlBocmpzXTYzIiU8aG5Hb2RPcGxzTSZJLjMnYGItXVFwSDY4dDEsOm1zMSVKQiRIUDFwQmkmYmUqXGJxSj4mOFZdKj1XVCQ2JFRdRjdGOkEmJWpVP01RUDcvXDpLaXVQVSMzbXJHZj5fXEFKWnVcWmxtSExgOCY3NWZLIjEqb1pILmxjQVBQJ09PaiNTczI2LDFVLTcxNmctITFsKj5OPGE1U25CI11pakJUQmVVbU0xRiI+bkddbGtALy5vQzdRXyduTGI+JjJlazduVmlyQDA2RWlQIzZsWENIMVFKV21pXkIsYS0rc0RERm9WJy45bkEjYk9GUWFlXmJvO2UpVyIwbyFASyZNOk8/L1gmTl4kLjQlRDwrLz05Q0prRSlldUtwODwvTXMoJkJgWGFZREo1Q1ghKExQYlVDbUFfRy1AVzM9UDVBSmVCNE5JLWMxWnBnU1hMIT9vbzlrInM5SU5FbktpMGxxYEcxbEg6LSttP1FHJSM3a0AuZkkiSUdPUFtRZ0B1WDYqK1FtQmtzQGNWJj0ldCZETS9KNC1baCVIaHNqR2I7QidbJGBPZz1lLHVUT0pSZ09lNCU+LCo4LCx0PmVsNHRrVidwLlVVW0hCM3FJVltyOVVVRWohPiU4PCI4aFF0QV0+YS8wQGFsVjBMUj90ZGlsKFtyJzY3Xi1KOnJUVlE2VFFbLSxIVl8ra0VUV0VMRW1kSVVVQm9ycV9tNHIxay1ba0luPzIqKlJsIzVgcVlPUHViQ2kyZVhlTWlcUjRYWyxQa2hSSyQ7czsnM0dGLz1QRF9zMCNOXWdbOytdNWk1MDc8TFk+cUQ6b2ZdXyNMMClwbSlYZDhaSCNEWVcrPF89czdIVC0lcTgnQF9nWmVadD4+UERvSi9tLHFVJk1KLSg/Y0tVIV1UOW9aUj5VJFgqaituWmIwP3FXYi1FZj9ESi8kWFIoTkMlI28+JURpRWhibFU6PV49JSQuPz4sajE6alNFS3BWaUBNMWRjOTpRTzYzXUplIj0lXkE5YTdXSFlWLTJBNUNyVXQjJ2kkI0Q6VlFEJzgxO200NFE8STBzblxKSSJmTlYyLEwxNFEpVkE5XXE0ZSgtL1c+I0FCKTNvbCpmdUtYQ1kzQydOamdfMmJTaSY1XFoqaCU2WFwiTm8+VkNuY01XRUQ6YWZQYmMsPDxPOUVZVTtlOEFpaipuUy8jPkpwZDlPQnBNTklOK0oiIVotQl1ncD1sYmBfRUVgPS1TWk1eVDQqRiQxL2pmOV5uTkExYC9RJlxkaW1hby9kbzdLLy9CUEtMYzYnV1d1QU0hYmpRMWBJZD9nKlsiRC9MKjojK0BGRjtFNFJgYkx1QW4zbWAuO0klQiVfKT86bFNSVDxjJ2FJT1E6XEU4U0JCVCtJdFcqKz8rJUsvYFFWVzxCTiFmPE0kVSw6WVQ6Nm1nTmtlY0szLWFARiMjPTo9KVdjP2BCY2dQNV9ocGhpbkt0XGAuSDVoOF1OSClWSURVX1opVCdmJE0wPipcdVxJIlFLUTVdV1daPTYtNi4rV0FNSHQlRyZ0JWQzJlVPMkhXIWUnamV0Kz9Jai86OG5ZZ3NdTC0mSVRgKGxtPzMzSFdVZ1BWQkw4PyJkYi5qb1RxYSU5SzJPUVxyVEVlVGJwW190PXBrLCRwc1drP1hDWy1DIWNvLmlvJjRAPTY4Sy1RTCgjREc7KDhbPEthWjVNNG5WXyI5OGEnbidIOipoZiEqJ1ozMGVIQ1UhQEBlRztNQUY2Skg3ajhcRWYoPEVAMz1mYHI3S1ojNDNrVTI+USRhNl5dSkZpaVNoMjk9WEVPXGcpMmlOXWhFKzYzKXJ0RU4vLnVwJjdmamA0N21uTUVFJSZiXyU4JFs1MTlrMEZHN2MwO0QlUkEmKS9QcF1pclZYLychTDFJZGJKNVRMVDdjaFpoIVdHVXAnY248MnU0ODVQbzhxP3E1M3I0aSIuWU87LHIiMUNWXmRKblVCQSdfITxNI1IjOnJpbyJna18zZVc7RENpaDNfI3VGcTY7c0paSWJLKiUyOE5gcXFJYVc0IU5JYVlDN1NLVzJITkUkI2JFYjhiVmlPKjlQcnRCMWkkLjZSb2FUJFtDSzdMcS02TFhmNHNcU2QkIlM7Jm9AVFFyI1U4KD9qOlUoMUkhPzpjKiUrYmRPYiFkbTQ+YWosN21aOi4vT2lIbXR1KlRcNFVvOC91JUNXODdUclQzZVBQW3QiJE5JO0VdLWBuR0VKX1xCRlc0X3U3dGwiLipyK3RuYEphJmZzbGFeQjUhb2lUIS1sWWhKYm1zZzFhTShKfj5lbmRzdHJlYW0KZW5kb2JqCjEwIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDc4Nwo+PgpzdHJlYW0KR2F1SEk5NWlOTCZBSWBkayM9P0BaTHRyRXA1cDJUXGRFLWJEcVlSOExGaEI3cC85V1Y3SSNzJmZcZiItVyQ1NS4oK2BZOGJeUFZESlYmZGpEOC5HWV5xIzFxKERKOCI0VSE8ayEuPiM8aD4/JCdSbit0bjBxXDRYTms5MkA+TCVQI1U+JSQjMmVnTzdib2VWTCkibGhbXHVyOklrPHNwSVlwYjZ0cTImKnM7cTNtKC0/R0MoJydwPSxpYUghP0FYWy8mYyIoLzViZyllZmJhPSIvaykzZWZiKzA9clRSVlJtZkRyUCJCKydfLTdNTDI9LXRxUEw0cUptJS5nJHBCYD07WUpVJColY245NUlCV1gnREdAWWZJNS1YPmVRUHE0Ik5HUHAuO0o3Z1x0WT5CS3MuLWJxSScxU2hdVUwkV09eaCNiajxNISRCRmtgWCpoL0ddJV5ZRl4vOi9KOi8sJGdWQjhvKXIjJDIqLUwiVEgxYjhJR2U7PDNKPzoyQ1pScEtBJUpAMDlAM3NRTkIkMGVzYHMoMklIZXJNYixtMDlNLUdBb1IvJ0oic1AmRGxLQkUhcWA9UyIqUSYrISU3ZlUhZ1w+al4vY1BNP046O2chJmckU25RUUIjZlRnQkVAL20wPDlvYmopOURELT8qUyFlbTcocDRhcEhSXk1LWDE2JVFLa3IzLzswUWtfYSxPdUgqT0gqQjBpXFFhJyRqSDhmMURPZSFkdD5LPWY1MypVYyZjUVlPNj8sPDdOPiErPyY9MlNZWDVAO2U6JEtaT1lVKUdnUG5JbEw9MFViRy5TI2VyTzNAYmdPQHEmZVcicWdOP24pZlg7MSNEZ01kIU91ZDtwaDdHWSZBKF04Ni5RXjNAOkUiJSZxIThqa3MoKG1aJGxQSzJoTlhwV0MkZEgtPjtJRClFQVNDZktcPnExX0QtIWlMcjhjKT88MCQvK0lqZWVdVHFxMDdaWk5WcExccVlTNjM0dTk6TmEuPlExWWJHLVJbVTo4P2UqOCgxdDlCcSJNays2YFksLFF0RVt+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDExCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTAyIDAwMDAwIG4gCjAwMDAwMDAyMDkgMDAwMDAgbiAKMDAwMDAwMDMyMSAwMDAwMCBuIAowMDAwMDAwNTE0IDAwMDAwIG4gCjAwMDAwMDA3MDggMDAwMDAgbiAKMDAwMDAwMDc3NiAwMDAwMCBuIAowMDAwMDAxMDU2IDAwMDAwIG4gCjAwMDAwMDExMjEgMDAwMDAgbiAKMDAwMDAwNDAxMiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzxhMmQ1MzM3NjVjNmZhZjFhODNjYjFjOTU2OTUzMWRkYj48YTJkNTMzNzY1YzZmYWYxYTgzY2IxYzk1Njk1MzFkZGI+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDcgMCBSCi9Sb290IDYgMCBSCi9TaXplIDExCj4+CnN0YXJ0eHJlZgo0ODkwCiUlRU9GCg==";
+
+function downloadResume() {
+  try {
+    const byteChars = atob(PDF_B64);
+    const byteNums = new Uint8Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) byteNums[i] = byteChars.charCodeAt(i);
+    const blob = new Blob([byteNums], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'BERNADINO_DOMONGDONG_CV.pdf';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  } catch(e) { alert('Download failed. Please try again.'); }
+}
+
+document.getElementById('hero-dl-btn').addEventListener('click', downloadResume);
+document.getElementById('contact-dl-btn').addEventListener('click', downloadResume);
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
